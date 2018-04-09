@@ -2,6 +2,10 @@ module Fluent
 
   class GELFOutput < BufferedOutput
 
+    unless method_defined?(:log)
+      define_method('log') { $log }
+    end
+
     Plugin.register_output("gelf", self)
 
     require 'gelf'
@@ -64,19 +68,36 @@ module Fluent
         timestamp = time
       end
 
-      make_gelfentry(
-        tag,time,record,
-        {
-          :use_record_host => @use_record_host,
-          :add_msec_time => @add_msec_time
-        }
-      ).to_msgpack
+      begin
+        make_gelfentry(
+          tag,time,record,
+          {
+            :use_record_host => @use_record_host,
+            :add_msec_time => @add_msec_time
+          }
+        ).to_msgpack
+      rescue Exception => e
+        log.error sprintf(
+          'Error trying to serialize %s: %s',
+          record.to_s.force_encoding('UTF-8'),
+          e.message.to_s.force_encoding('UTF-8')
+        )
+      end
 
     end
 
     def write(chunk)
       chunk.msgpack_each do |data|
-        @conn.notify!(data)
+        begin
+          @conn.notify!(data)
+        rescue Exception => e
+          log.error sprintf(
+            'Error trying to publish %s: %s',
+            data.to_s.force_encoding('UTF-8'),
+            e.message.to_s.force_encoding('UTF-8')
+          )
+        end
+
       end
     end
 
