@@ -91,11 +91,8 @@ module Fluent
         begin
           @conn.notify!(data)
         rescue Exception => e
-          log.error sprintf(
-            'Error trying to publish %s: %s',
-            data.to_s.force_encoding('UTF-8'),
-            e.message.to_s.force_encoding('UTF-8')
-          )
+          log.warn "failed to flush the buffer.", error_class: e.class.to_s, error: e.to_s, plugin_id: plugin_id
+          raise e
         end
 
       end
