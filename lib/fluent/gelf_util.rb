@@ -59,7 +59,11 @@ module Fluent
         when 'short_message', 'full_message', 'facility', 'line', 'file' then
           gelfentry[k] = v
         else
-          gelfentry['_'+k] = v
+          if !k.start_with?('_')
+            gelfentry['_'+k] = v
+          else
+            gelfentry[k] = v
+          end
         end
       end
 
