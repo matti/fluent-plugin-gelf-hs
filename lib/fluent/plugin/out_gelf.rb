@@ -63,14 +63,14 @@ module Fluent
 
     def format(tag, time, record)
       if defined? Fluent::EventTime and time.is_a? Fluent::EventTime then
-        timestamp = time.sec + (time.nsec.to_f/1000000000).round(3)
+        timestamp = time.to_i + (time.nsec.to_f/1000000000).round(3)
       else
-        timestamp = time
+        timestamp = time.to_i
       end
 
       begin
         make_gelfentry(
-          tag,time,record,
+          tag,timestamp,record,
           {
             :use_record_host => @use_record_host,
             :add_msec_time => @add_msec_time
