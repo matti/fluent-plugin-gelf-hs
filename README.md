@@ -17,7 +17,7 @@ gem install fluent-plugin-gelf-hs
   port <remote GELF port>
   protocol <tcp or udp (default)>
   tls <true or false (default)>
-  tls_options <{} (default)> for options see https://github.com/graylog-labs/gelf-rb/blob/72916932b789f7a6768c3cdd6ab69a3c942dbcef/lib/gelf/transport/tcp_tls.rb#L7-L12
+  tls_options <{} (default)> for options see https://github.com/graylog-labs/gelf-rb/blob/eb2d31cdc4b37c316de880122279bcac52a08ba2/lib/gelf/transport/tcp_tls.rb#L7-L15
   [ fluent buffered output plugin configuration ]
 </match>
 ```
