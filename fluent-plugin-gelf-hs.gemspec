@@ -2,7 +2,7 @@
 $:.push File.expand_path("../lib", __FILE__)
 
 Gem::Specification.new do |s|
-  s.name        = "fluent-plugin-gelf-hs"
+  s.name        = "fluent-plugin-gelf-better"
   s.version   = ENV.key?('RUBYGEM_VERSION') ? ENV['RUBYGEM_VERSION'] : '1.0.3'
   s.authors     = ["Alex Yamauchi", "Eric Searcy"]
   s.email       = ["oss@hotschedules.com"]
@@ -22,7 +22,4 @@ Gem::Specification.new do |s|
   s.add_development_dependency "rake"
   s.add_runtime_dependency "fluentd"
   s.add_runtime_dependency "gelf", ">= 2.0.0"
-
-  s.signing_key = File.expand_path( ENV.key?('RUBYGEM_SIGNING_KEY') ? ENV['RUBYGEM_SIGNING_KEY'] : '~/certs/oss@hotschedules.com.key' ) if $0 =~ /\bgem[\.0-9]*\z/
-  s.cert_chain    = %w[certs/oss@hotschedules.com.cert]
 end
